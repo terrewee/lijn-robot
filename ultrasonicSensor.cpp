@@ -31,49 +31,40 @@ BrickPi3 BP;
 
 void exit_signal_handler(int signo);
 
-
-
-
 void printUltrasonicValue(){
     signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
-
     BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
- 
     BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
-
     sensor_ultrasonic_t ultrasonic;
+
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
         cout << "Ultrasonic sensor (S3): "   << ultrasonic.cm << "cm" << endl;
     }
     else{
-        cout << "Error -3: Ultrasonic sensor not properly connected or initialized.";
+        cout << "Error -7: Ultrasonic sensor not properly connected or initialized.";
     }
 }
 
 float getUltrasonicSensor(){
     signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
-
     BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
- 
     BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
-
     sensor_ultrasonic_t ultrasonic;
+
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
         return ultrasonic.cm;
     }
     else{
-        cout << "Error -3: Ultrasonic sensor not properly connected or initialized.";
+        cout << "Error -7: Ultrasonic sensor not properly connected or initialized.";
     }
 }
 
 bool CheckObstacleInRange(const float detectRange){
     signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
-
     BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
- 
     BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
-
     sensor_ultrasonic_t ultrasonic;
+    
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
         
         if(detectRange >= ultrasonic.cm){
@@ -84,7 +75,7 @@ bool CheckObstacleInRange(const float detectRange){
         }
     }
     else{
-        cout << "Error -3: Ultrasonic sensor not properly connected or initialized.";
+        cout << "Error -7: Ultrasonic sensor not properly connected or initialized.";
     }
 }
 
