@@ -38,21 +38,18 @@ void rightcorrectie(void){
 void measure(sensor_color_t Color1, sensor_color_t Color4){
     
     
-    if(Color1.ambient >= 80 && Color4.ambient < 80){ //rechts wit(1 is rechts)
+    if(Color1.color == 6) && Color4.color == 1 ){ //rechts wit links zwart
         cout << "Turn left" << endl;
         leftcorrectie();
     }
-    else if(Color1.ambient < 80 && Color4.ambient >= 80){//rechts zwart
+    else if(Color1.color == 1 && Color4.color == 6 ){//rechts zwart links wit
         cout << "Turn right" << endl;
         rightcorrectie();
     }
-    else if(Color1.ambient > 100 && Color4.ambient > 100){//rechts zwart
-        cout << "LOST" << endl;
-    }
-    else{
+    else if(Color1.color == 6)  && Color4.color == 6){//Beide kanten wit, lijn in midden
         fwd();
     }
-    cout << "Color 1 " << Color1.ambient << endl;   
+    //cout << "Color 1 " << Color1.ambient << endl;   
     
         
 }
