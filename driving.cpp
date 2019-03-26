@@ -58,17 +58,16 @@ void measure(sensor_color_t Color1, sensor_color_t Color4){
 }
 
 int main(){
+    signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
+
+    BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
+
+    BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_FULL);
+    BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_COLOR_FULL);
+
+    sensor_color_t Color1;
+    sensor_color_t Color4;
     while(true){
-        signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
-
-        BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
-
-        BP.set_sensor_type(PORT_1, SENSOR_TYPE_NXT_COLOR_FULL);
-        BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_COLOR_FULL);
-
-        sensor_color_t Color1;
-        sensor_color_t Color4;
-        
         measure(Color1, Color4);
     }
 }
