@@ -23,14 +23,18 @@
 #include <iostream>      // for cout
 #include <unistd.h>     // for sleep
 #include <signal.h>     // for catching exit signals
-#include <iomanip>		// for setw and setprecision
+#include <iomanip>      // for setw and setprecision
 
 using namespace std;
 
+BrickPi3 BP;
 
-void init(){
-    BrickPi3 BP;
+void exit_signal_handler(int signo);
 
+
+
+
+void printUltrasonicValue(){
     signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
 
     BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
@@ -38,18 +42,22 @@ void init(){
     BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
 
     sensor_ultrasonic_t ultrasonic;
-}
-
-void printUltrasonicValue(){
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
-		cout << "Ultrasonic sensor (S3): "   << ultrasonic.cm << "cm" << endl;
- 	}
+        cout << "Ultrasonic sensor (S3): "   << ultrasonic.cm << "cm" << endl;
+    }
     else{
         cout << "Error -3: Ultrasonic sensor not properly connected or initialized.";
     }
 }
 
 float getUltrasonicSensor(){
+    signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
+
+    BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
+ 
+    BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
+
+    sensor_ultrasonic_t ultrasonic;
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
         return ultrasonic.cm;
     }
@@ -59,6 +67,13 @@ float getUltrasonicSensor(){
 }
 
 bool CheckObstacleInRange(const float detectRange){
+    signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
+
+    BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
+ 
+    BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
+
+    sensor_ultrasonic_t ultrasonic;
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
         
         if(detectRange >= ultrasonic.cm){
@@ -80,3 +95,14 @@ void exit_signal_handler(int signo){
     exit(-2);
   }
 }
+
+int main(){
+    BrickPi3 BP;
+    BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
+    sensor_ultrasonic_t ultrasonic;
+    printUltrasonicValue();
+    float afstand = getUltrasonicSensor();
+    cout << "Afstand" << afstand << endl;
+    bool result = CheckObstacleInRange(afstand);
+    cout << "Result" << result << endl;
+    }
