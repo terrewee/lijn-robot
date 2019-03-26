@@ -64,7 +64,7 @@ bool CheckObstacleInRange(const float detectRange){
     BP.detect(); // Make sure that the BrickPi3 is communicating and that the firmware is compatible with the drivers.
     BP.set_sensor_type(PORT_3,SENSOR_TYPE_NXT_ULTRASONIC);
     sensor_ultrasonic_t ultrasonic;
-    
+
     if(BP.get_sensor(PORT_3, ultrasonic) == 0){
         
         if(detectRange >= ultrasonic.cm){
@@ -96,4 +96,5 @@ int main(){
     cout << "Afstand" << afstand << endl;
     bool result = CheckObstacleInRange(afstand);
     cout << "Result" << result << endl;
+    cout << BP.get_sensor(PORT_3, ultrasonic);
     }
