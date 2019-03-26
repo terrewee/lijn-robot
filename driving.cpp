@@ -48,7 +48,7 @@ void measure(){
     BP.set_sensor_type(PORT_4, SENSOR_TYPE_NXT_COLOR_FULL);
 
     sensor_color_t      Color1;
-    sensor_color_t      Color3;
+    sensor_color_t      Color4;
     
     if(BP.get_sensor(PORT_1, Color1) == 0){
         //cout << "Color sensor (S1): detected  " << (int) Color1.color;
@@ -98,8 +98,10 @@ int main(){
     while(true){
         x = _getch();
 
-        if(x == 'w')
-        
+        if      (x == 'w'){fwd();}
+        else if (x == 'a'){leftcorrectie();}
+        else if (x == 'd'){rightcorrectie();}
+        else if (x == 's'){stop();}        
     }
 }
 void exit_signal_handler(int signo){
