@@ -41,7 +41,6 @@ void rightcorrectie(void){
 }
 
 void measure(sensor_color_t Color1, sensor_color_t Color4){
-    int richting = 0;
     if(BP.get_sensor(PORT_1, Color1) == 0){
         //cout << "Color sensor (S1): detected  " << (int) Color1.color;
         //cout << " ambient" << setw(4) << Color1.ambient << endl;
@@ -54,7 +53,7 @@ void measure(sensor_color_t Color1, sensor_color_t Color4){
     }
     while(true){
         sleep(2);
-        if(BP.get_sensor(PORT_1, Color1) == 0){0;
+        if(BP.get_sensor(PORT_1, Color1) == 0){
             //cout << "Color sensor (S1): detected  " << (int) Color1.color;
             //cout << " ambient" << setw(4) << Color1.ambient << endl;
         }
