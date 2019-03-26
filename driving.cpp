@@ -61,7 +61,6 @@ void measure(){
         cout << "Color 4 " << Color4.ambient << endl;
     }
     while(true){
-        sleep(2);
         if(BP.get_sensor(PORT_1, Color1) == 0){
             //cout << "Color sensor (S1): detected  " << (int) Color1.color;
             //cout << " ambient" << setw(4) << Color1.ambient << endl;
@@ -92,17 +91,24 @@ void measure(){
 }
 
 int main(){
-
-    measure();
     char x;
+    if (x == ' '){
+        while(true){
+            x = _getch();
+
+            if      (x == 'w'){fwd();}
+            else if (x == 'a'){leftcorrectie();}
+            else if (x == 'd'){rightcorrectie();}
+            else if (x == 's'){stop();}
+            else if (x == ' '){break;}
+        }
+    }
     while(true){
         x = _getch();
-
-        if      (x == 'w'){fwd();}
-        else if (x == 'a'){leftcorrectie();}
-        else if (x == 'd'){rightcorrectie();}
-        else if (x == 's'){stop();}        
+        measure();
+        if(x == ' '){break;}
     }
+    
 }
 void exit_signal_handler(int signo){
     if(signo == SIGINT){
