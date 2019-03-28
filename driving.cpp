@@ -8,6 +8,11 @@ using namespace std;
 
 BrickPi3 BP;
 
+struct rgbSensorValue{
+    int sensor1;
+    int sensor4;
+};
+
 void exit_signal_handler(int signo);
 
 int masterRotate = 150;
@@ -93,24 +98,58 @@ void crossroad(int &powerA, int &powerB){
     usleep(50000);
 }
 
-void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker, bool & obstacle){
-    //if(ticker == 500){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
+rgbSensorValue measure(sensor_color_t Color1, sensor_color_t Color4){
+
+    if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+        rgbSensorValue rgb;
+        rgb.sensor1 = Color1.color;
+        rgb.sensor4 = Color4.color;
+        return rgb
+    }
+    else{
+        cout << "Error: rgb sensors."
+    }
+    
+}
+
+// void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker, bool & obstacle){
+//     //if(ticker == 500){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
+//     if(obstacle){
+//         stop();
+//     }
+//     else{
+//         if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+//             cout << "Color1 " << (int) Color11.color << " Color4 " << (int) Color44.color << endl;
+//             if     (Color11.color == 1 && Color44.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
+//             else if(Color11.color == 6 && Color44.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
+//             else if(Color11.color == 6 && Color44.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
+//             else if(Color11.color == 1 && Color44.color == 1) {crossroad(powerA, powerB);} 
+            
+//             //ticker++;
+//             //cout << "ticker: " << ticker << endl;
+//         }
+//     }
+    
+// }
+
+void movement(const rgbSensorValue & rgb, int powerA, int powerB, bool obstacle){
     if(obstacle){
         stop();
     }
     else{
-        if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-            cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
-            if     (Color1.color == 1 && Color4.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
-            else if(Color1.color == 6 && Color4.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
-            else if(Color1.color == 6 && Color4.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
-            else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB);} 
-            
-            //ticker++;
-            //cout << "ticker: " << ticker << endl;
-        }
-    }
-    
+        if(rgb.sensor1 == 1 && rgb.sensor4 == 6){
+            rightcorrectie(powerA, powerB);
+        }        //rechts wit links zwart
+        else if(rgb.sensor1 == 6 && rgb.sensor4 == 1){
+            leftcorrectie(powerA, powerB);
+        }         //rechts zwart links wit
+        else if(rgb.sensor1 == 6 && rgb.sensor4 == 6){
+            fwd(powerA, powerB);
+        }                   //rechts zwart 
+        else if(rgb.sensor1 == 1 && rgb.sensor4 == 1){
+            crossroad(powerA, powerB);
+        } 
+    } 
 }
 
 int main(){
@@ -135,10 +174,10 @@ int main(){
     int ticker = 0;
     bool obstacle = 0;
 
-    measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);    
+    measure(Color1,Color4, ultrasonic, obstacle);    
     while(true){
         std::thread thread1(checkObstacleInRange, obstacle);
-        std::thread thread2(measure, Color1, Color4, powerA, powerB, ultrasonic, ticker, obstacle);
+        std::thread thread2(movement, measure(Color1, Color4), powerA, powerB, obstacle);
     }
     
     //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
