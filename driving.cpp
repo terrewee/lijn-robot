@@ -44,31 +44,36 @@ void rightcorrectie(int &powerA, int &powerB){
 
     BP.set_motor_dps(PORT_B, powerA);
     BP.set_motor_dps(PORT_C, powerB);
-}
+}  
 
-bool checkObstacleInRange(sensor_ultrasonic_t ultrasonic, int &powerA, int &powerB){
-    
-    while(true){
-    int detectRange = 5;
+void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
+        float detectRange = 5.0;
 
-        cout << "cm " << ultrasonic.cm << endl;
+        if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
+            obstacle = 1;
+        }
+        else if(detectRange < ultrasonic.cm && ultrasonic.cm >= 0.0){
+            obstacle = 0;
+        }
 
-        if(detectRange <= ultrasonic.cm){
-        stop();
+        if(BP.get_sensor(PORT_2, ultrasonic) == 0){
+            if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
+                obstacle = 1;
+            }
+            else if(detectRange < ultrasonic.cm && ultrasonic.cm >= 0.0){
+                obstacle = 0;
+            }
+            cout << "cm " << ultrasonic.cm << endl;
         }
         else{
-        fwd(powerA, powerB);
-    }
-        if(BP.get_sensor(PORT_2, ultrasonic) == 0){
-            if(ultrasonic.cm <= detectRange+1 && ultrasonic.cm > 0){stop();}
-            else if(detectRange < ultrasonic.cm+1 && ultrasonic.cm+2 > 0){fwd(powerA, powerB); break;}
-    }
-        else{cout << "Error -7: Ultrasonic sensor not properly connected or initialized.";}
-    }
-}     
+
+            cout << "Error: get_sensor(PORT2, ultrasonic) != 0.";
+        }
+
+        usleep(35000);
+} 
 
 void crossroad(int &powerA, int &powerB){
-
     BP.set_motor_dps(PORT_B, 0);
     BP.set_motor_dps(PORT_C, 0);
     char keuze;
@@ -87,18 +92,25 @@ void crossroad(int &powerA, int &powerB){
     }
     usleep(50000);
 }
-void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker){
-    if(ticker == 1000){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
-    if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-    cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
-        if     (Color1.color == 1 && Color4.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
-        else if(Color1.color == 6 && Color4.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
-        else if(Color1.color == 6 && Color4.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
-    else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB);} 
-        
-        ticker++;
-        cout << "ticker: " << ticker << endl;
+
+void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker, bool & obstacle){
+    //if(ticker == 500){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
+    if(obstacle){
+        stop();
     }
+    else{
+        if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+            cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
+            if     (Color1.color == 1 && Color4.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
+            else if(Color1.color == 6 && Color4.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
+            else if(Color1.color == 6 && Color4.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
+            else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB);} 
+            
+            //ticker++;
+            //cout << "ticker: " << ticker << endl;
+        }
+    }
+    
 }
 
 int main(){
@@ -121,9 +133,18 @@ int main(){
     int powerB = masterForward;
 
     int ticker = 0;
+    bool obstacle = 0;
 
-    measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
-    while(true){measure(Color1, Color4, powerA, powerB, ultrasonic, ticker);}
+    measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);    
+    while(true){
+        std::thread thread1(checkObstacleInRange, obstacle);
+        std::thread thread2(measure, Color1, Color4, powerA, powerB, ultrasonic, ticker, obstacle);
+    }
+    
+    //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
+    //while(true){
+    //    measure(Color1, Color4, powerA, powerB, ultrasonic, ticker);
+    //}
 }
 
 void exit_signal_handler(int signo){
