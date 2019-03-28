@@ -37,9 +37,17 @@ void leftcorrectie(int &powerA, int &powerB){
     BP.set_motor_dps(PORT_C, powerB);
 }
 
-void slightLeft(int &powerA, int &powerB){
+void mediumLeft(int &powerA, int &powerB){
     powerA += (masterRotate/2);
     powerB -= (masterRotate/2);
+
+    BP.set_motor_dps(PORT_B, powerA);
+    BP.set_motor_dps(PORT_C, powerB);
+}
+
+void slightLeft(int &powerA, int &powerB){
+    powerA += (masterRotate/4);
+    powerB -= (masterRotate/4);
 
     BP.set_motor_dps(PORT_B, powerA);
     BP.set_motor_dps(PORT_C, powerB);
@@ -53,9 +61,18 @@ void rightcorrectie(int &powerA, int &powerB){
     BP.set_motor_dps(PORT_B, powerA);
     BP.set_motor_dps(PORT_C, powerB);
 }
-void slightRight(int &powerA, int &powerB){
+
+void mediumRight(int &powerA, int &powerB){
     powerA -= (masterRotate/2);
     powerB += (masterRotate/2);
+
+    BP.set_motor_dps(PORT_B, powerA);
+    BP.set_motor_dps(PORT_C, powerB);
+}
+
+void slightRight(int &powerA, int &powerB){
+    powerA -= (masterRotate/4);
+    powerB += (masterRotate/4);
 
     BP.set_motor_dps(PORT_B, powerA);
     BP.set_motor_dps(PORT_C, powerB);
@@ -107,11 +124,15 @@ void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int power
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
     cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
         if     (Color1.color == 1 && Color4.color == 6)                         {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
-        else if(Color1.color == 1 && (Color4.color < 6 && Color4.color > 2))    {slightRight(powerA, powerB);}
+        else if(Color1.color == 1 && Color4.color == 5)                         {mediumRight(powerA, powerB);}
+        else if(Color1.color == 1 && (Color4.color < 5 && Color4.color > 2))    {slightRight(powerA, powerB);}
+        
         else if(Color1.color == 6 && Color4.color == 1)                         {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
+        else if(Color1.color == 5 && Color4.color == 1)                         {mediumLeft(powerA, powerB);}
         else if((Color1.color < 6 && Color1.color > 2) && Color4.color == 1)    {slightLeft(powerA, powerB);}
+        
         else if(Color1.color == 6 && Color4.color == 6)                         {fwd(powerA, powerB);}                   //rechts zwart 
-    else if(Color1.color == 1 && Color4.color == 1)                             {crossroad(powerA, powerB);} 
+        else if(Color1.color == 1 && Color4.color == 1)                         {crossroad(powerA, powerB);} 
         
         ticker++;
         cout << "ticker: " << ticker << endl;
