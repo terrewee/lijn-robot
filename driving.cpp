@@ -76,10 +76,11 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
     cin >> keuze;
     if(keuze == 'A' || keuze == 'a'){
         while(true){
-        int counter;
-        if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-        if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, -180); BP.set_motor_dps(PORT_C, 180); counter++;} 
-        else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+                int counter;
+                if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+                        if(Color1.color == 6 && Color4.color == 6)                      {BP.set_motor_dps(PORT_B, -180); BP.set_motor_dps(PORT_C, 180); counter++;} 
+                        else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+                }
         }
     }
     if(keuze == 'D' || keuze == 'd'){
@@ -88,8 +89,8 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
         while(true){
         int counter;
         if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-        if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, 180); BP.set_motor_dps(PORT_C, -180); counter++;} 
-        else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+                if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, 180); BP.set_motor_dps(PORT_C, -180); counter++;} 
+                else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
         }
     }
     if(keuze == 'W' || keuze == 'w'){
@@ -100,7 +101,7 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
 void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker){
     if(ticker == 1000){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-    cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;}
+    cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
         if     (Color1.color == 1 && Color4.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
         else if(Color1.color == 6 && Color4.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
         else if(Color1.color == 6 && Color4.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
