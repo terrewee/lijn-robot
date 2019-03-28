@@ -100,11 +100,11 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
 void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker){
     if(ticker == 1000){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-    cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
+    cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;}
         if     (Color1.color == 1 && Color4.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
         else if(Color1.color == 6 && Color4.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
         else if(Color1.color == 6 && Color4.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
-    else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB);} 
+        else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB);} 
         
         ticker++;
         cout << "ticker: " << ticker << endl;
