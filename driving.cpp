@@ -1,3 +1,5 @@
+
+
 #include "BrickPi3.h"   // for BrickPi3
 #include <iostream>      // for printf
 #include <unistd.h>     // for usleep
@@ -76,21 +78,22 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
     cin >> keuze;
     if(keuze == 'A' || keuze == 'a'){
         while(true){
-                int counter;
-                if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-                        if(Color1.color == 6 && Color4.color == 6)                      {BP.set_motor_dps(PORT_B, -180); BP.set_motor_dps(PORT_C, 180); counter++;} 
-                        else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
-                }
+            int counter;
+            if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+                if(Color1.color == 6 && Color4.color == 6)                      {BP.set_motor_dps(PORT_B, -180); BP.set_motor_dps(PORT_C, 180); counter++;} 
+                else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+            }
         }
     }
     if(keuze == 'D' || keuze == 'd'){
         BP.set_motor_dps(PORT_B, -180);
         BP.set_motor_dps(PORT_C, 180);
         while(true){
-        int counter;
-        if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+            int counter;
+            if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
                 if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, 180); BP.set_motor_dps(PORT_C, -180); counter++;} 
                 else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+            }
         }
     }
     if(keuze == 'W' || keuze == 'w'){
