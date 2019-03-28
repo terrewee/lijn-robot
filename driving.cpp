@@ -52,6 +52,7 @@ void rightcorrectie(int &powerA, int &powerB){
 }  
 
 void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
+    while{
         float detectRange = 5.0;
 
         if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
@@ -76,6 +77,7 @@ void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
         }
 
         usleep(35000);
+    }
 } 
 
 void crossroad(int &powerA, int &powerB){
@@ -132,7 +134,9 @@ rgbSensorValue measure(sensor_color_t Color1, sensor_color_t Color4){
     
 // }
 
-void movement(const rgbSensorValue & rgb, int powerA, int powerB, bool obstacle){
+void movement(int powerA, int powerB, bool obstacle){
+    rgbSensorValue rgb = measure(Color1, Color4);
+    
     if(obstacle){
         stop();
     }
@@ -174,10 +178,10 @@ int main(){
     int ticker = 0;
     bool obstacle = 0;
 
-    measure(Color1,Color4, ultrasonic, obstacle);    
+    measure(Color1,Color4, ultrasonic, obstacle);
+    std::thread thread1(checkObstacleInRange, obstacle);  
     while(true){
-        std::thread thread1(checkObstacleInRange, obstacle);
-        std::thread thread2(movement, measure(Color1, Color4), powerA, powerB, obstacle);
+        std::thread thread2(movement, powerA, powerB, obstacle);
     }
     
     //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
