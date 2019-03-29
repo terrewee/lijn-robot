@@ -26,10 +26,11 @@ void stop(void){
 }
 
 void stopforobject(void){
-BP.set_motor_power(PORT_B, 0);
-BP.set_motor_power(PORT_C, 0);        
-usleep(35000);
+    BP.set_motor_power(PORT_B, 0);
+    BP.set_motor_power(PORT_C, 0);        
+    usleep(35000);
 }
+
 //forward
 void fwd(int &powerA, int &powerB){
     if      (powerA > masterForward){powerA -= masterRotate;}
@@ -52,7 +53,7 @@ void leftcorrectie(int &powerA, int &powerB){
 //Move Right
 void rightcorrectie(int &powerA, int &powerB){
     powerA -= masterRotate;
-    powerB += masterRotate;
+    powerB += masterRotate; 
 
     BP.set_motor_dps(PORT_B, powerA);
     BP.set_motor_dps(PORT_C, powerB);
@@ -142,25 +143,28 @@ rgbSensorValue measure(sensor_color_t Color1, sensor_color_t Color4){
 // }
 
 void movement(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, bool obstacle){
-    rgbSensorValue rgb = measure(Color1, Color4);
-    
-    if(obstacle){
-        stop();
+    while(true){
+        rgbSensorValue rgb = measure(Color1, Color4);
+        
+        if(obstacle){
+            stop();
+        }
+        else{
+            if(rgb.sensor1 == 1 && rgb.sensor4 == 6){
+                rightcorrectie(powerA, powerB);
+            }        //rechts wit links zwart
+            else if(rgb.sensor1 == 6 && rgb.sensor4 == 1){
+                leftcorrectie(powerA, powerB);
+            }         //rechts zwart links wit
+            else if(rgb.sensor1 == 6 && rgb.sensor4 == 6){
+                fwd(powerA, powerB);
+            }                   //rechts zwart 
+            else if(rgb.sensor1 == 1 && rgb.sensor4 == 1){
+                crossroad(powerA, powerB);
+            }
+        }
     }
-    else{
-        if(rgb.sensor1 == 1 && rgb.sensor4 == 6){
-            rightcorrectie(powerA, powerB);
-        }        //rechts wit links zwart
-        else if(rgb.sensor1 == 6 && rgb.sensor4 == 1){
-            leftcorrectie(powerA, powerB);
-        }         //rechts zwart links wit
-        else if(rgb.sensor1 == 6 && rgb.sensor4 == 6){
-            fwd(powerA, powerB);
-        }                   //rechts zwart 
-        else if(rgb.sensor1 == 1 && rgb.sensor4 == 1){
-            crossroad(powerA, powerB);
-        } 
-    } 
+    
 }
 
 int main(){
@@ -187,9 +191,7 @@ int main(){
 
     measure(Color1,Color4);
     thread thread1(checkObstacleInRange, ultrasonic, obstacle);  
-    while(true){
-        thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
-    }
+    thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
     
     //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
     //while(true){
