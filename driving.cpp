@@ -78,26 +78,20 @@ void slightRight(int &powerA, int &powerB){
     BP.set_motor_dps(PORT_C, powerB);
 }
 
-bool checkObstacleInRange(sensor_ultrasonic_t ultrasonic, int &powerA, int &powerB){
-    
+void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
     while(true){
     int detectRange = 5;
-
         cout << "cm " << ultrasonic.cm << endl;
-
-        if(detectRange <= ultrasonic.cm){
-        stop();
-        }
-        else{
-        fwd(powerA, powerB);
-        }
+        if      ((detectRange + 10.0) >= ultrasonic.cm  && ultrasonic.cm > 0.0)   {obstacle = 1;}
+        else if (detectRange < ultrasonic.cm && ultrasonic.cm >= 0.0)            {obstacle = 0;}
+        
         if(BP.get_sensor(PORT_2, ultrasonic) == 0){
-            if(ultrasonic.cm <= detectRange+1 && ultrasonic.cm > 0){stop();}
-            else if(detectRange < ultrasonic.cm+1 && ultrasonic.cm+2 > 0){fwd(powerA, powerB); break;}
+            if      (ultrasonic.cm <= (detectRange + 10.0) && ultrasonic.cm > 0.0)      {stop();}
+            else if (detectRange < ultrasonic.cm+1 && ultrasonic.cm+2 > 0)              {fwd(powerA, powerB); break;}
+        else{cout << "Error -7: Ultrasonic sensor.";}
+        usleep(35000);
     }
-        else{cout << "Error -7: Ultrasonic sensor not properly connected or initialized.";}
-    }
-}     
+} 
 
 void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t Color4){
     BP.set_motor_dps(PORT_B, 0);
