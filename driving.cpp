@@ -99,26 +99,48 @@ bool checkObstacleInRange(sensor_ultrasonic_t ultrasonic, int &powerA, int &powe
     }
 }     
 
-void crossroad(int &powerA, int &powerB){
-
+void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t Color4){
     BP.set_motor_dps(PORT_B, 0);
     BP.set_motor_dps(PORT_C, 0);
     char keuze;
     cout << "Links: A, Rechts: D, vooruit: W " << endl;
     cin >> keuze;
     if(keuze == 'A' || keuze == 'a'){
-        BP.set_motor_dps(PORT_B, 180);
-        BP.set_motor_dps(PORT_C, -180);
+        BP.set_motor_dps(PORT_B, 30);
+        BP.set_motor_dps(PORT_C, 30);
+        sleep(2);
+        stop();
+        while(true){
+            BP.set_motor_dps(PORT_B, 180); 
+            BP.set_motor_dps(PORT_C, -180);
+            if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+                if(Color4.color == 1){cout << "x" << endl; fwd(powerA, powerB); break;}
+            }
+        }
     }
     if(keuze == 'D' || keuze == 'd'){
-        BP.set_motor_dps(PORT_B, -180);
-        BP.set_motor_dps(PORT_C, 180);
+        BP.set_motor_dps(PORT_B, 30);
+        BP.set_motor_dps(PORT_C, 30);
+        sleep(2);
+        stop();
+        while(true){
+            BP.set_motor_dps(PORT_B, -180); 
+            BP.set_motor_dps(PORT_C, 180);
+            if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+                if(Color1.color == 1){cout << "x" << endl; fwd(powerA, powerB); break;}
+            }
+        }
     }
     if(keuze == 'W' || keuze == 'w'){
+        BP.set_motor_dps(PORT_B, 30);
+        BP.set_motor_dps(PORT_C, 30);
+        sleep(2);
+        stop();
         fwd(powerA, powerB);
     }
     usleep(50000);
 }
+
 void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker){
     if(ticker == 1000){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
