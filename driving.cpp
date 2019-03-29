@@ -178,7 +178,7 @@ int main(){
     int ticker = 0;
     bool obstacle = 0;
 
-    measure(Color1,Color4, ultrasonic, obstacle);
+    measure(Color1,Color4);
     std::thread thread1(checkObstacleInRange, obstacle);  
     while(true){
         std::thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
