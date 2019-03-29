@@ -23,6 +23,12 @@ void stop(void){
         BP.set_motor_power(PORT_B, 0);
         BP.set_motor_power(PORT_C, 0);
 }
+
+void stopforobject(void){
+BP.set_motor_power(PORT_B, 0);
+BP.set_motor_power(PORT_C, 0);        
+usleep(35000);
+}
 //forward
 void fwd(int &powerA, int &powerB){
     if      (powerA > masterForward){powerA -= masterRotate;}
@@ -65,9 +71,10 @@ void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
         else if(detectRange < ultrasonic.cm && ultrasonic.cm >= 0.0){
             obstacle = 0;
         }
+        
         if(BP.get_sensor(PORT_2, ultrasonic) == 0){
             if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
-                stop();
+                stopforobject();
                 
             }
 
@@ -79,10 +86,9 @@ void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
         else{
             cout << "Error -7: Ultrasonic sensor.";
         }
-
         usleep(35000);
     }
-}     
+}      
 
 void crossroad(int &powerA, int &powerB){
     BP.set_motor_dps(PORT_B, 0);
