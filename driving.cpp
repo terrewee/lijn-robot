@@ -52,33 +52,37 @@ void rightcorrectie(int &powerA, int &powerB){
 }  
 
 void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
+    
     while(true){
-        float detectRange = 5.0;
+    int detectRange = 5;
 
-        if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
-            obstacle = 1;
+        cout << "cm " << ultrasonic.cm << endl;
+
+        if(detectRange >= ultrasonic.cm) + 10.0 && ultrasonic.cm > 0.0){
+            obstakel = 1;
         }
+    
         else if(detectRange < ultrasonic.cm && ultrasonic.cm >= 0.0){
             obstacle = 0;
         }
-
         if(BP.get_sensor(PORT_2, ultrasonic) == 0){
             if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
-                obstacle = 1;
+                stop();
+                
             }
-            else if(detectRange < ultrasonic.cm && ultrasonic.cm >= 0.0){
-                obstacle = 0;
-            }
-            cout << "cm " << ultrasonic.cm << endl;
-        }
-        else{
 
-            cout << "Error: get_sensor(PORT2, ultrasonic) != 0.";
+            else if(detectRange < ultrasonic.cm+1 && ultrasonic.cm+2 > 0){
+                fwd(powerA, powerB); break;
+                
+            }
+
+        else{
+            cout << "Error -7: Ultrasonic sensor.";
         }
 
         usleep(35000);
     }
-} 
+}     
 
 void crossroad(int &powerA, int &powerB){
     BP.set_motor_dps(PORT_B, 0);
