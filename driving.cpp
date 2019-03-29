@@ -69,38 +69,44 @@ bool checkObstacleInRange(sensor_ultrasonic_t ultrasonic, int &powerA, int &powe
     }
 }     
 
-// void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t Color4){
+void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t Color4){
 
-//     BP.set_motor_dps(PORT_B, 0);
-//     BP.set_motor_dps(PORT_C, 0);
-//     char keuze;
-//     cout << "Links: A, Rechts: D, vooruit: W " << endl;
-//     cin >> keuze;
-//     if(keuze == 'A' || keuze == 'a'){
-//         while(true){
-//             int counter;
-//             if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-//                 if(Color1.color == 6 && Color4.color == 6)                      {BP.set_motor_dps(PORT_B, -180); BP.set_motor_dps(PORT_C, 180); counter++;} 
-//                 else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
-//             }
-//         }
-//     }
-//     if(keuze == 'D' || keuze == 'd'){
-//         BP.set_motor_dps(PORT_B, -180);
-//         BP.set_motor_dps(PORT_C, 180);
-//         while(true){
-//             int counter;
-//             if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-//                 if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, 180); BP.set_motor_dps(PORT_C, -180); counter++;} 
-//                 else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
-//             }
-//         }
-//     }
-//     if(keuze == 'W' || keuze == 'w'){
-//         fwd(powerA, powerB);
-//     }
-//     usleep(50000);
-// }
+    BP.set_motor_dps(PORT_B, 0);
+    BP.set_motor_dps(PORT_C, 0);
+    char keuze;
+    cout << "Links: A, Rechts: D, vooruit: W " << endl;
+    cin >> keuze;
+    if(keuze == 'A' || keuze == 'a'){
+        BP.set_motor_dps(PORT_B, 30);
+        BP.set_motor_dps(PORT_C, 30);
+        sleep(2);
+        stop();
+        while(true){
+            int counter;
+            if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+                if(Color1.color == 6 && Color4.color == 6)                      {BP.set_motor_dps(PORT_B, -180); BP.set_motor_dps(PORT_C, 180); counter++;} 
+                else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+            }
+        }
+    }
+    if(keuze == 'D' || keuze == 'd'){
+        BP.set_motor_dps(PORT_B, 30);
+        BP.set_motor_dps(PORT_C, 30);
+        sleep(2);
+        stop();
+        while(true){
+            int counter;
+            if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
+                if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, 180); BP.set_motor_dps(PORT_C, -180); counter++;} 
+                else if(Color1.color == 1 && Color4.color == 1 && counter == 2) {fwd(powerA, powerB);}
+            }
+        }
+    }
+    if(keuze == 'W' || keuze == 'w'){
+        fwd(powerA, powerB);
+    }
+    usleep(50000);
+}
 void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker){
     if(ticker == 1000){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
@@ -108,7 +114,7 @@ void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int power
         if     (Color1.color == 1 && Color4.color == 6) {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
         else if(Color1.color == 6 && Color4.color == 1) {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
         else if(Color1.color == 6 && Color4.color == 6) {fwd(powerA, powerB);}                   //rechts zwart 
-        //else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB, Color1, Color4);} 
+        else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB, Color1, Color4);} 
         
         ticker++;
         cout << "ticker: " << ticker << endl;
