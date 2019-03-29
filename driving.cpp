@@ -85,7 +85,7 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
             BP.set_motor_dps(PORT_B, 180); 
             BP.set_motor_dps(PORT_C, -180);
             if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-                if(Color4.color == 6){cout << "x" << endl; fwd(powerA, powerB); break;}
+                if(Color4.color == 1){cout << "x" << endl; fwd(powerA, powerB); break;}
                 
                 
                 // if(Color4.color == 6){
