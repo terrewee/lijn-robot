@@ -51,7 +51,7 @@ void rightcorrectie(int &powerA, int &powerB){
 bool checkObstacleInRange(sensor_ultrasonic_t ultrasonic, int &powerA, int &powerB){
     
     while(true){
-    int detectRange = 5;
+    int detectRange = 8;
 
         cout << "cm " << ultrasonic.cm << endl;
 
@@ -103,6 +103,10 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
         }
     }
     if(keuze == 'W' || keuze == 'w'){
+        BP.set_motor_dps(PORT_B, 30);
+        BP.set_motor_dps(PORT_C, 30);
+        sleep(2);
+        stop();
         fwd(powerA, powerB);
     }
     usleep(50000);
