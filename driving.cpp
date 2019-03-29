@@ -86,7 +86,7 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
             if(Color1.color == 6 && Color4.color == 6) {BP.set_motor_dps(PORT_B, 180); BP.set_motor_dps(PORT_C, -180);}
             cout << counter << endl;
             if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-                if(Color1.color == 6){counter++; sleep(1); cout << "1: " << (int)Color1.color << "2: " << (int)Color4.color << endl;}
+                if(Color4.color == 6){counter++; sleep(1); cout << "1: " << (int)Color1.color << "2: " << (int)Color4.color << endl;}
                  
                 else if(Color1.color == 1 && Color4.color == 1 && counter == 1) {fwd(powerA, powerB);}
             }
