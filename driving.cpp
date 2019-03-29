@@ -52,7 +52,7 @@ void rightcorrectie(int &powerA, int &powerB){
 }  
 
 void checkObstacleInRange(sensor_ultrasonic_t ultrasonic, bool & obstacle){
-    while{
+    while(true){
         float detectRange = 5.0;
 
         if(ultrasonic.cm <= detectRange + 10.0 && ultrasonic.cm > 0.0){
