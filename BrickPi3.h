@@ -25,8 +25,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <fcntl.h>
-//#include <sys/ioctl.h>
-//#include <linux/spi/spidev.h>
+#include <sys/ioctl.h>
+#include <linux/spi/spidev.h>
 #include <stdio.h>            // for printf
 #include <string.h>           // for strstr
 
