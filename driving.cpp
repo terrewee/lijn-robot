@@ -153,10 +153,50 @@ void evadeObstacle(int powerA, int powerB){
             leftcorrectie(powerA, powerB);
             ticker++;
         }
+        ticker = 0;
+        while(ticker < 15){
+            fwd(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 10){
+            rightcorrectie(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 15){
+            fwd(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 10){
+            rightcorrectie(powerA, powerB);
+            ticker++;
+        }
     }
     else{
         while(ticker < 10){
             rightcorrectie(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 15){
+            fwd(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 10){
+            leftcorrectie(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 15){
+            fwd(powerA, powerB);
+            ticker++;
+        }
+        ticker = 0;
+        while(ticker < 10){
+            leftcorrectie(powerA, powerB);
             ticker++;
         }
     }
