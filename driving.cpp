@@ -179,9 +179,9 @@ int main(){
     bool obstacle = 0;
 
     measure(Color1,Color4);
-    std::thread thread1(checkObstacleInRange, obstacle);  
+    thread thread1(checkObstacleInRange, obstacle);  
     while(true){
-        std::thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
+        thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
     }
     
     //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
