@@ -106,10 +106,10 @@ rgbSensorValue measure(sensor_color_t Color1, sensor_color_t Color4){
         rgbSensorValue rgb;
         rgb.sensor1 = Color1.color;
         rgb.sensor4 = Color4.color;
-        return rgb
+        return rgb;
     }
     else{
-        cout << "Error: rgb sensors."
+        cout << "Error: rgb sensors.";
     }
     
 }
