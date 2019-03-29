@@ -151,7 +151,7 @@ void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int power
         
         else if(Color1.color == 6 && Color4.color == 1)                         {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
         else if(Color1.color == 6 && Color4.color == 2)                         {mediumLeft(powerA, powerB);}
-        else if(Color1.color == 6 && (Color4.color > 2 && Color4.color < 5)     {slightLeft(powerA, powerB);}
+        else if(Color1.color == 6 && (Color4.color > 2 && Color4.color < 5))    {slightLeft(powerA, powerB);}
         
         else if(Color1.color == 6 && Color4.color == 6)                         {fwd(powerA, powerB);}                   //rechts zwart 
         else if(Color1.color == 1 && Color4.color == 1)                         {crossroad(powerA, powerB, Color1, Color4);}  
