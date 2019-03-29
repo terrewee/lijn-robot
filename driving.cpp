@@ -134,7 +134,7 @@ rgbSensorValue measure(sensor_color_t Color1, sensor_color_t Color4){
     
 // }
 
-void movement(int powerA, int powerB, bool obstacle){
+void movement(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, bool obstacle){
     rgbSensorValue rgb = measure(Color1, Color4);
     
     if(obstacle){
@@ -181,7 +181,7 @@ int main(){
     measure(Color1,Color4, ultrasonic, obstacle);
     std::thread thread1(checkObstacleInRange, obstacle);  
     while(true){
-        std::thread thread2(movement, powerA, powerB, obstacle);
+        std::thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
     }
     
     //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
