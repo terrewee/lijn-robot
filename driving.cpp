@@ -81,13 +81,13 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
         BP.set_motor_dps(PORT_C, 30);
         sleep(2);
         stop();
-        int counter = 0;
         while(true){
             BP.set_motor_dps(PORT_B, 180); 
             BP.set_motor_dps(PORT_C, -180);
-            cout << counter << endl;
             if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
-                if(Color1.color == 6){cout << "x" << endl; fwd(powerA, powerB); break;}
+                if(Color4.color == 6){cout << "x" << endl; fwd(powerA, powerB); break;}
+                
+                
                 // if(Color4.color == 6){
                 //     counter++; 
                 //     sleep(1); 
@@ -128,7 +128,7 @@ void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int power
         else if(Color1.color == 1 && Color4.color == 1) {crossroad(powerA, powerB, Color1, Color4);} 
         
         ticker++;
-        cout << "ticker: " << ticker << endl;
+        //cout << "ticker: " << ticker << endl;
     }
 }
 
