@@ -167,6 +167,10 @@ void movement(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powe
     
 }
 
+void poep(){
+    1 + 1;
+}
+
 int main(){
    signal(SIGINT, exit_signal_handler); // register the exit function for Ctrl+C
 
@@ -190,8 +194,8 @@ int main(){
     bool obstacle = 0;
 
     measure(Color1,Color4);
-    thread thread1(checkObstacleInRange, ultrasonic, obstacle);  
-    thread thread2(movement, Color1, Color4, powerA, powerB, obstacle);
+    thread thread1(poep);  
+    thread thread2(poep);
     
     //measure(Color1,Color4, powerA, powerB, ultrasonic, ticker);
     //while(true){
