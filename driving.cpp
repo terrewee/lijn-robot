@@ -146,12 +146,12 @@ void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int power
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
     cout << "Color1 " << (int) Color1.color << " Color4 " << (int) Color4.color << endl;
         if     (Color1.color == 1 && Color4.color == 6)                         {rightcorrectie(powerA, powerB);}        //rechts wit links zwart
-        else if(Color1.color == 1 && Color4.color == 5)                         {mediumRight(powerA, powerB);}
-        else if(Color1.color == 1 && (Color4.color < 5 && Color4.color > 2))    {slightRight(powerA, powerB);}
+        else if(Color1.color == 2 && Color4.color == 6)                         {mediumRight(powerA, powerB);}
+        else if((Color1.color > 2 && Color1.color < 5) && Color4.color == 1)    {slightRight(powerA, powerB);}
         
         else if(Color1.color == 6 && Color4.color == 1)                         {leftcorrectie(powerA, powerB);}         //rechts zwart links wit
-        else if(Color1.color == 5 && Color4.color == 1)                         {mediumLeft(powerA, powerB);}
-        else if((Color1.color < 6 && Color1.color > 2) && Color4.color == 1)    {slightLeft(powerA, powerB);}
+        else if(Color1.color == 6 && Color4.color == 2)                         {mediumLeft(powerA, powerB);}
+        else if(Color1.color == 6 && (Color4.color > 2 && Color4.color < 5)     {slightLeft(powerA, powerB);}
         
         else if(Color1.color == 6 && Color4.color == 6)                         {fwd(powerA, powerB);}                   //rechts zwart 
         else if(Color1.color == 1 && Color4.color == 1)                         {crossroad(powerA, powerB, Color1, Color4);}  
