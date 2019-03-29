@@ -141,6 +141,27 @@ void crossroad(int &powerA, int &powerB, sensor_color_t Color1, sensor_color_t C
     usleep(50000);
 }
 
+void evadeObstacle(int powerA, int powerB){
+    int ticker = 0;
+    char direction = '';
+    while(direction != 'l' || direction != 'r'){
+        cout << "Left(l) or Right(r):" << endl;
+        cin >> direction;
+    }
+    if(direction = 'l'){
+        while(ticker < 10){
+            leftcorrectie(powerA, powerB);
+            ticker++;
+        }
+    }
+    else{
+        while(ticker < 10){
+            rightcorrectie(powerA, powerB);
+            ticker++;
+        }
+    }
+}
+
 void measure(sensor_color_t Color1, sensor_color_t Color4, int powerA, int powerB, sensor_ultrasonic_t ultrasonic, int &ticker){
     if(ticker == 1000){checkObstacleInRange(ultrasonic, powerA, powerB); ticker = 0;}
     if((BP.get_sensor(PORT_1, Color1) == 0)&&(BP.get_sensor(PORT_4, Color4) == 0)){
