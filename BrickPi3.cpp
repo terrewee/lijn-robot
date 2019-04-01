@@ -828,3 +828,4 @@ int BrickPi3::reset_all(){
   }
   return ERROR_NONE;
 }
+
