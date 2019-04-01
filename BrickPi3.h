@@ -25,14 +25,14 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <fcntl.h>
-//#include <sys/ioctl.h>
-//#include <linux/spi/spidev.h>
+#include <sys/ioctl.h>
+#include <linux/spi/spidev.h>
 #include <stdio.h>            // for printf
 #include <string.h>           // for strstr
 
-//#include <linux/types.h>
-//#include <getopt.h>
-//#include <unistd.h>
+#include <linux/types.h>
+#include <getopt.h>
+#include <unistd.h>
 
 // Error values
 #define ERROR_NONE                  0
